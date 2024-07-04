@@ -1,14 +1,13 @@
 <?php
 use App\Models\Billet;
 use App\Models\PaiementCarte;
-
+use App\Models\Agence;
+use Env\Connexion;
 include("../Env/connexion.php");
 include("../App/Models/Agence.php");
 include("../App/Models/PaiementCarte.php");
 include("../App/Models/Billet.php");
-use App\Models\Agence;
-
-use Env\Connexion;
+session_start();
 
 try {
   //code...
@@ -16,29 +15,25 @@ try {
   $billet = new Billet();
   $data_billet = $billet->getAll();
   $data = [["nom"=>"AFRICA GLOBAL GUIDE"],["nom"=>"OFIS"],["nom"=>"OCEAN DU NORD"]];
-  $data2 = [["nom"=>"momo"],["nom"=>"Airtel Money"]];
+  $data2 = [["nom"=>"Momo"],["nom"=>"Airtel Money"]];
   $agence_ = new Agence($data[2]["nom"]);
   $data_agence = $agence_->getAll();
   $number_row = count($data_agence->fetch());
-  //$instance->migrationTable();
-  //$instance->deleteAll();
-  // var_dump( $state );
+  // $instance->deleteAll();
+  $instance->migrationTable();
   $paiement = new PaiementCarte($data2[1]['nom']);
   // $paiement->create();
   $data_paiement = $paiement->getAll();
   
-  // var_dump($data->fetch());
   // $msg = $agence_->create();
   // $agence1 = (new Agence($data[1]["nom"],""))->create();
   // $agence2 = (new Agence($data[2]["nom"],""))->create();
-  // var_dump($msg1);
+
 } catch (\Throwable $th) {
   //throw $th;
   echo "". $th->getMessage() ."";
 }
 
-// $msg = $state->migrationTable();
-// var_dump($msg);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,6 +44,7 @@ try {
     <script src="../assets/js/tailwindcss.js"></script>
 </head>
 <body>
+<div>
 <?php
 include("./components/navbar.php");
 ?>
@@ -170,7 +166,7 @@ include("./components/navbar.php");
       <?php
         while($item = $data_billet->fetch()):
       ?>
-    <div class="group relative bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500 sm:rounded-tr-lg">
+    <div class="group relative bg-white p-6 sm:rounded-tr-lg">
       <div>
         <span class="inline-flex rounded-lg bg-purple-50 p-3 text-purple-700 ring-4 ring-white">
           <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -180,11 +176,10 @@ include("./components/navbar.php");
       </div>
       <div class="mt-8">
         <h3 class="text-base font-semibold leading-6 text-gray-900">
-          <a href="#" class="focus:outline-none">
             <!-- Extend touch target to entire panel -->
             <span class="absolute inset-0" aria-hidden="true"></span>
             Billet : <?=$item['nom']?>
-          </a>
+       
         </h3>
         <span class="mt-2">
             Tarification : <span class="text-green-300"><?=$item['price']?> </span>fcfa
@@ -198,18 +193,25 @@ include("./components/navbar.php");
               <?=($agence_->findById($item['fk_agence']))->fetch()["nom"]?>
           </span>
         </span><br>
-        <span class="mt-2">
+        <div class="mt-2 mb-4">
             Status : <span class="text-green-300">disponible </span>
-        </span>
-        <p class="mt-2 text-sm text-gray-500">.</p>
+        </div><br/>
+        
+        <?php if(isset($_SESSION['user_id'])):?>
+          <a href="./view/reservation.php" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Rerserver</a>
+          <?php else:?>
+            <span class="text-2xl text-red-300">Connectez-vous pour reserver</span>
+          <?php endif?>
+        <?php endwhile?>
       </div>
-      <span class="pointer-events-none absolute right-6 top-6 text-gray-300 group-hover:text-gray-400" aria-hidden="true">
+      <span class=" absolute right-6 top-6 text-gray-300 group-hover:text-gray-400" aria-hidden="true">
         <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
           <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
         </svg>
       </span>
+      
     </div>
-    <?php endwhile?>
+    
 </div>
 
       

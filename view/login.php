@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Authentification</title>
     <script src="../assets/js/tailwindcss.js"></script>
 </head>
 <body>
@@ -14,7 +14,7 @@
 
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
     <div class="bg-white mb-6 px-6 py-12 shadow sm:rounded-lg sm:px-12">
-      <form class="space-y-6" action="#Password" method="POST">
+      <form class="space-y-6" action="login.php" method="POST">
         <div>
           <label for="username" class="block text-sm font-medium leading-6">Nom d'utilisateur</label>
           <div class="mt-2">

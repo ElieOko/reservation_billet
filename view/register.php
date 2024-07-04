@@ -1,3 +1,42 @@
+<?php
+
+include("../Env/connexion.php");
+include("../App/Models/User.php");
+include("../App/Models/Client.php");
+
+use App\Models\Client;
+use App\Models\User;
+session_start();
+
+if (isset($_POST["save"])) {
+   if (
+    isset($_POST["nom_famille"]) && 
+    isset($_POST["prenom"]) &&
+    isset($_POST["telephone"]) &&
+    isset($_POST["username"]) &&
+    isset($_POST["password"])) {
+      if(
+        !empty($_POST["nom_famille"]) && 
+        !empty($_POST["prenom"]) &&
+        !empty($_POST["telephone"]) &&
+        !empty($_POST["username"]) &&
+        !empty($_POST["password"])) {
+          $user = new User($_POST["username"],$_POST["password"]);
+          $data = $user->create();
+          if($data['id']!= 0){
+            $client = new Client($data['id'],$_POST["nom_famille"],$_POST["prenom"],$_POST["telephone"]);
+            $state = $client->create();
+            if($state['id']!=0){
+              $_SESSION['user_id'] = $data['id'];
+              header("Location:index.php");
+            }
+          }
+        }
+   }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +53,7 @@
 
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
     <div class="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
-      <form class="space-y-6" action="#Password" method="POST">
+      <form class="space-y-6" action="register.php" method="POST">
       <div>
           <label for="nom_famille" class="block text-sm font-medium leading-6 text-gray-900">Nom de famille</label>
           <div class="mt-2">

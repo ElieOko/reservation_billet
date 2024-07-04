@@ -6,9 +6,9 @@ use PDOException;
 class Connexion{
     private $server = "localhost";
     private $port = 3306;
-    private $user = "corneille";
-    private $password = "opensource@243";
-    private $database = "kongo_academia_db";
+    private $user = "root";
+    private $password = "";
+    private $database = "reservation_db";
 
     public function ServerConnected(){
         try {
@@ -36,7 +36,8 @@ class Connexion{
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     username VARCHAR(255) UNIQUE,
                     password VARCHAR(255) NOT NULL,
-                    email VARCHAR(255) NULL
+                    email VARCHAR(255) NULL,
+                    is_admin tinyint(1) NOT NULL DEFAULT '0'
                 )";
                 $server->exec($sql);
                 $message = "La table 'utilisateurs' a été créée avec succès.";
@@ -203,7 +204,8 @@ class Connexion{
     }
         
     public function deleteAll(){
-        $this->dropTable("paiement_cartes");
+        $this->dropTable("utilisateurs");
+        // $this->dropTable("paiement_cartes");
         // $this->dropTable("agences");
         // $this->dropTable("billets");
         // $this->dropTable("clients");
