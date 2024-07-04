@@ -1,9 +1,11 @@
 <?php
+use App\Models\Billet;
 use App\Models\PaiementCarte;
 
 include("../Env/connexion.php");
 include("../App/Models/Agence.php");
 include("../App/Models/PaiementCarte.php");
+include("../App/Models/Billet.php");
 use App\Models\Agence;
 
 use Env\Connexion;
@@ -11,18 +13,25 @@ use Env\Connexion;
 try {
   //code...
   $instance = new Connexion();
-  
+  $billet = new Billet();
+  $data_billet = $billet->getAll();
   $data = [["nom"=>"AFRICA GLOBAL GUIDE"],["nom"=>"OFIS"],["nom"=>"OCEAN DU NORD"]];
-  $data2 = [["nom"=>"momo"],["nom"=>"Aitel Money"]];
+  $data2 = [["nom"=>"momo"],["nom"=>"Airtel Money"]];
   $agence_ = new Agence($data[2]["nom"]);
-  $state  = $instance->migrationTable();
-  var_dump( $state );
-  $paiement = new PaiementCarte($data[0]["nom"]);
-  $msg1 = $paiement->create();
-  $msg = $agence_->create();
+  $data_agence = $agence_->getAll();
+  $number_row = count($data_agence->fetch());
+  //$instance->migrationTable();
+  //$instance->deleteAll();
+  // var_dump( $state );
+  $paiement = new PaiementCarte($data2[1]['nom']);
+  // $paiement->create();
+  $data_paiement = $paiement->getAll();
+  
+  // var_dump($data->fetch());
+  // $msg = $agence_->create();
   // $agence1 = (new Agence($data[1]["nom"],""))->create();
   // $agence2 = (new Agence($data[2]["nom"],""))->create();
-  var_dump($msg1);
+  // var_dump($msg1);
 } catch (\Throwable $th) {
   //throw $th;
   echo "". $th->getMessage() ."";
@@ -124,58 +133,13 @@ include("./components/navbar.php");
               </div>
               <div class="flex flex-col-reverse gap-y-4">
                 <dt class="text-base leading-7 text-gray-600">Agences disponible</dt>
-                <dd class="text-5xl font-semibold tracking-tight text-gray-900">4</dd>
-              </div>
-            </dl>
-          </div>
-        </div>
-      </div>
+  <dd class="text-5xl font-semibold tracking-tight text-gray-900"><?=$number_row?></dd>
+              </di>
     </div>
-
-    <!-- Image section -->
-    <div class="mt-32 sm:mt-40 xl:mx-auto xl:max-w-7xl xl:px-8">
-      <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80" alt="" class="aspect-[5/2] w-full object-cover xl:rounded-3xl">
-    </div>
-
-    <!-- Values section -->
-    <div class="mx-auto mt-32 max-w-7xl px-6 sm:mt-40 lg:px-8">
-      <div class="mx-auto max-w-2xl lg:mx-0">
-        <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Our values</h2>
-        <p class="mt-6 text-lg leading-8 text-gray-600">Lorem ipsum dolor sit amet consect adipisicing elit. Possimus magnam voluptatum cupiditate veritatis in accusamus quisquam.</p>
-      </div>
-      <dl class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 text-base leading-7 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-        <div>
-          <dt class="font-semibold text-gray-900">Be world-class</dt>
-          <dd class="mt-1 text-gray-600">Aut illo quae. Ut et harum ea animi natus. Culpa maiores et sed sint et magnam exercitationem quia. Ullam voluptas nihil vitae dicta molestiae et. Aliquid velit porro vero.</dd>
-        </div>
-        <div>
-          <dt class="font-semibold text-gray-900">Share everything you know</dt>
-          <dd class="mt-1 text-gray-600">Mollitia delectus a omnis. Quae velit aliquid. Qui nulla maxime adipisci illo id molestiae. Cumque cum ut minus rerum architecto magnam consequatur. Quia quaerat minima.</dd>
-        </div>
-        <div>
-          <dt class="font-semibold text-gray-900">Always learning</dt>
-          <dd class="mt-1 text-gray-600">Aut repellendus et officiis dolor possimus. Deserunt velit quasi sunt fuga error labore quia ipsum. Commodi autem voluptatem nam. Quos voluptatem totam.</dd>
-        </div>
-        <div>
-          <dt class="font-semibold text-gray-900">Be supportive</dt>
-          <dd class="mt-1 text-gray-600">Magnam provident veritatis odit. Vitae eligendi repellat non. Eum fugit impedit veritatis ducimus. Non qui aspernatur laudantium modi. Praesentium rerum error deserunt harum.</dd>
-        </div>
-        <div>
-          <dt class="font-semibold text-gray-900">Take responsibility</dt>
-          <dd class="mt-1 text-gray-600">Sit minus expedita quam in ullam molestiae dignissimos in harum. Tenetur dolorem iure. Non nesciunt dolorem veniam necessitatibus laboriosam voluptas perspiciatis error.</dd>
-        </div>
-        <div>
-          <dt class="font-semibold text-gray-900">Enjoy downtime</dt>
-          <dd class="mt-1 text-gray-600">Ipsa in earum deserunt aut. Quos minus aut animi et soluta. Ipsum dicta ut quia eius. Possimus reprehenderit iste aspernatur ut est velit consequatur distinctio.</dd>
-        </div>
-      </dl>
-    </div>
-
-    <!-- Logo cloud -->
     <div class="relative isolate -z-10 mt-32 sm:mt-48">
       <div class="absolute inset-x-0 top-1/2 -z-10 flex -translate-y-1/2 justify-center overflow-hidden [mask-image:radial-gradient(50%_45%_at_50%_55%,white,transparent)]">
         <svg class="h-[40rem] w-[80rem] flex-none stroke-gray-200" aria-hidden="true">
-          <defs>
+          <defs>disp
             <pattern id="e9033f3e-f665-41a6-84ef-756f6778e6fe" width="200" height="200" x="50%" y="50%" patternUnits="userSpaceOnUse" patternTransform="translate(-100 0)">
               <path d="M.5 200V.5H200" fill="none" />
             </pattern>
@@ -189,77 +153,68 @@ include("./components/navbar.php");
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <h2 class="text-center text-lg font-semibold leading-8 text-gray-900">Trusted by the world’s most innovative teams</h2>
         <div class="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
-          <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1" src="https://tailwindui.com/img/logos/158x48/transistor-logo-gray-900.svg" alt="Transistor" width="158" height="48">
-          <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1" src="https://tailwindui.com/img/logos/158x48/reform-logo-gray-900.svg" alt="Reform" width="158" height="48">
-          <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1" src="https://tailwindui.com/img/logos/158x48/tuple-logo-gray-900.svg" alt="Tuple" width="158" height="48">
-          <img class="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1" src="https://tailwindui.com/img/logos/158x48/savvycal-logo-gray-900.svg" alt="SavvyCal" width="158" height="48">
-          <img class="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1" src="https://tailwindui.com/img/logos/158x48/statamic-logo-gray-900.svg" alt="Statamic" width="158" height="48">
+          <iv>
+            </dl>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="bg-white shadow sm:rounded-lg">
-  <div class="px-4 py-5 sm:p-6">
-    <h3 class="text-base font-semibold leading-6 text-gray-900">Mode de paiement disponible</h3>
-    <div class="mt-5">
-      <div class="rounded-md bg-gray-50 px-6 py-5 sm:flex sm:items-start sm:justify-between">
-        <h4 class="sr-only">Visa</h4>method
-        <div class="sm:flex sm:items-start">
-          <svg class="h-8 w-auto sm:h-6 sm:flex-shrink-0" viewBox="0 0 36 24" aria-hidden="true">
-            <rect width="36" height="24" fill="#224DBA" rx="4" />
-            <path fill="#fff" d="M10.925 15.673H8.874l-1.538-6c-.073-.276-.228-.52-.456-.635A6.575 6.575 0 005 8.403v-.231h3.304c.456 0 .798.347.855.75l.798 4.328 2.05-5.078h1.994l-3.076 7.5zm4.216 0h-1.937L14.8 8.172h1.937l-1.595 7.5zm4.101-5.422c.057-.404.399-.635.798-.635a3.54 3.54 0 011.88.346l.342-1.615A4.808 4.808 0 0020.496 8c-1.88 0-3.248 1.039-3.248 2.481 0 1.097.969 1.673 1.653 2.02.74.346 1.025.577.968.923 0 .519-.57.75-1.139.75a4.795 4.795 0 01-1.994-.462l-.342 1.616a5.48 5.48 0 002.108.404c2.108.057 3.418-.981 3.418-2.539 0-1.962-2.678-2.077-2.678-2.942zm9.457 5.422L27.16 8.172h-1.652a.858.858 0 00-.798.577l-2.848 6.924h1.994l.398-1.096h2.45l.228 1.096h1.766zm-2.905-5.482l.57 2.827h-1.596l1.026-2.827z" />
+    <div class="mt-32 sm:mt-40 xl:mx-auto xl:max-w-7xl xl:px-8">
+      <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80" alt="" class="aspect-[5/2] w-full object-cover xl:rounded-3xl">
+    </div>
+  
+  <div class="mx-auto max-w-2xl py-6">
+  <h1  class="text-2xl text-center font-bold">Reservation des billets</h1>
+  <div class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-gray-200 shadow sm:grid sm:grid-cols-2 sm:gap-px sm:divide-y-0">
+      <?php
+        while($item = $data_billet->fetch()):
+      ?>
+    <div class="group relative bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500 sm:rounded-tr-lg">
+      <div>
+        <span class="inline-flex rounded-lg bg-purple-50 p-3 text-purple-700 ring-4 ring-white">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
           </svg>
-          <div class="mt-3 sm:ml-4 sm:mt-0">
-            <div class="text-sm font-medium text-gray-900">Ending with 4242</div>
-            <div class="mt-1 text-sm text-gray-600 sm:flex sm:items-center">
-              <div>Expires 12/20</div>
-              <span class="hidden sm:mx-2 sm:inline" aria-hidden="true">&middot;</span>
-              <div class="mt-1 sm:mt-0">Last updated on 22 Aug 2017</div>
-            </div>
-          </div>
-        </div>
-        <div class="mt-4 sm:ml-6 sm:mt-0 sm:flex-shrink-0">
-          <button type="button" class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Edit</button>
-        </div>
+        </span>
       </div>
+      <div class="mt-8">
+        <h3 class="text-base font-semibold leading-6 text-gray-900">
+          <a href="#" class="focus:outline-none">
+            <!-- Extend touch target to entire panel -->
+            <span class="absolute inset-0" aria-hidden="true"></span>
+            Billet : <?=$item['nom']?>
+          </a>
+        </h3>
+        <span class="mt-2">
+            Tarification : <span class="text-green-300"><?=$item['price']?> </span>fcfa
+        </span> <br>
+        <span class="mt-2">
+            Destination : <span class="text-red-300"><?=$item['destination']?></span>
+        </span>
+        <br>
+        <span class="mt-2">
+            Agence : <span class="text-red-300">
+              <?=($agence_->findById($item['fk_agence']))->fetch()["nom"]?>
+          </span>
+        </span><br>
+        <span class="mt-2">
+            Status : <span class="text-green-300">disponible </span>
+        </span>
+        <p class="mt-2 text-sm text-gray-500">.</p>
+      </div>
+      <span class="pointer-events-none absolute right-6 top-6 text-gray-300 group-hover:text-gray-400" aria-hidden="true">
+        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
+        </svg>
+      </span>
     </div>
-  </div>
+    <?php endwhile?>
 </div>
-    <!-- Blog section -->
-    <div class="mx-auto mt-32 max-w-7xl px-6 sm:mt-40 lg:px-8">
-      <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
-        <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">From the blog</h2>
-        <p class="mt-2 text-lg leading-8 text-gray-600">Vel dolorem qui facilis soluta sint aspernatur totam cumque.</p>
-      </div>
-      <div class="mx-auto mt-16 grid max-w-2xl auto-rows-fr grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-        <article class="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80">
-          <img src="https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3603&q=80" alt="" class="absolute inset-0 -z-10 h-full w-full object-cover">
-          <div class="absolute inset-0 -z-10 bg-gradient-to-t from-gray-900 via-gray-900/40"></div>
-          <div class="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10"></div>
 
-          <div class="flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-gray-300">
-            <time datetime="2020-03-16" class="mr-8">Mar 16, 2020</time>
-            <div class="-ml-4 flex items-center gap-x-4">
-              <svg viewBox="0 0 2 2" class="-ml-0.5 h-0.5 w-0.5 flex-none fill-white/50">
-                <circle cx="1" cy="1" r="1" />
-              </svg>
-              <div class="flex gap-x-2.5">
-                <img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="h-6 w-6 flex-none rounded-full bg-white/10">
-                Michael Foster
-              </div>
-            </div>
-          </div>
-          <h3 class="mt-3 text-lg font-semibold leading-6 text-white">
-            <a href="#">
-              <span class="absolute inset-0"></span>
-              Vel expedita assumenda placeat aut nisi optio voluptates quas
-            </a>
-          </h3>
-        </article>
-
-        <!-- More posts... -->
-      </div>
-    </div>
+      
+  </div>
+    
   </main>
 
 <?php

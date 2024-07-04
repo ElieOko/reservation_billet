@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
-class User{
+use Env\Connexion;
+class User extends Connexion{
     private int $id;
     private string $username;
     private ?string $email;
@@ -20,10 +21,15 @@ class User{
                     "password"=>$this->password,
                     "is_admin"=>$this->is_admin
                 ];
+                $pdo = $this->ServerConnected();
+                $state = $pdo->prepare("INSERT INTO utilisateurs(username,email,password,is_admin)values(:v1,:v2,:v3,:v4)");
+                $state->bindParam(':v1', $this->username);
+                $state->bindParam(':v2', $this->email);
+                $state->bindParam(':v3', $this->password);
+                $state->bindParam(':v4', $this->is_admin);
+                $state->execute();
             }
-            else{
-
-            }
+            
         }     
         return $this->id;
     }

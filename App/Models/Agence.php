@@ -11,7 +11,6 @@ class Agence extends Connexion{
         $this->description = $description;
     }
     public function create(){
-        $data = ["nom" => $this->nom];
         $pdo = $this->ServerConnected();
         $state = $pdo->prepare("INSERT  INTO agences(nom)value(:nom)");
         $state->bindParam(':nom', $this->nom);
@@ -22,7 +21,7 @@ class Agence extends Connexion{
         return $this->select("agences");
     }
     public function findById(int $id){
-
+        return $this->selectById("agences",$id);
     }
 
 }

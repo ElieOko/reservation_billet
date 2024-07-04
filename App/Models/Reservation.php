@@ -1,10 +1,11 @@
 <?php
 namespace App\Models;
-class Reservation{
+use Env\Connexion;
+class Reservation extends Connexion{
     public const STATUS_APPROUVE = "accepter" ;
     public const STATUS_ATTENTE = "en attente" ;
     public const STATUS_ANNULER = "annuler" ;
-    private string $status = "";
+    private string $status = "en attente";
     private int $fk_billet;
     private int $fk_client;
     private string $date_reservation;
@@ -17,16 +18,25 @@ class Reservation{
         $this->fk_paiment_carte = $fk_paiment_carte;
     }
     public function create(){
-        $this->status = self::STATUS_ATTENTE ;
-        $this->date_reservation = date("Y-m-d H:i:s");
+        $pdo = $this->ServerConnected();
+        $state = $pdo->prepare("INSERT  INTO reservations(fk_billet,fk_client,date_reservation,fk_paiment_carte,status)value(:fk_billet,:fk_client,:date_reservation,:fk_paiment_carte,:status)");
+        $state->bindParam(':fk_billet', $this->fk_billet);
+        $state->bindParam(':fk_client', $this->fk_client);
+        $state->bindParam(':date_reservation', $this->date_reservation);
+        $state->bindParam(':fk_paiment_carte', $this->fk_paiment_carte);
+        $state->bindParam(':status', $this->status);
+        $state->execute();
+        return "Success";
+        // $this->status = self::STATUS_ATTENTE ;
+        // $this->date_reservation = date("Y-m-d H:i:s");
     }
     public function cancel(int $id){
         
     }
     public function getAll(){
-
+        return $this->select("reservations");
     }
     public function findById(int $id){
-
+        return $this->selectByIdClient("reservations", $id);
     }
 }

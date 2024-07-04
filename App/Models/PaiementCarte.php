@@ -5,7 +5,7 @@ class PaiementCarte extends Connexion{
     private int $id;
     private string $nom;
 
-    public function __construct(string $nom){
+    public function __construct(string $nom = ""){
         $this->nom = $nom;
     }
     public function create(){

@@ -96,7 +96,7 @@ class Connexion{
             // if ($stmt->rowCount() == 0) {
                 $sql = "CREATE TABLE IF NOT EXISTS paiement_cartes (
                     id INT AUTO_INCREMENT PRIMARY KEY,
-                    nom VARCHAR(255) UNIQUE,
+                    nom VARCHAR(255) UNIQUE
                 )";
                 $server->exec($sql);
                 $message = "La table 'paiement_cartes' a été créée avec succès.";
@@ -175,6 +175,38 @@ class Connexion{
             //throw $th;
         }  
     }
+    public function selectByIdClient($tableName,$id){
+        try {
+            $query = "SELECT * FROM $tableName where fk_client=$id";
+            $server = $this->ServerConnected();
+            $result = $server->query($query);
+            return $result;
+        } catch (\Throwable $th) {
+            //throw $th;
+        }  
+    }
+    public function selectById($tableName,$id){
+        try {
+            $query = "SELECT * FROM $tableName where id=$id";
+            $server = $this->ServerConnected();
+            $result = $server->query($query);
+            return $result;
+        } catch (\Throwable $th) {
+            //throw $th;
+        }  
+    }
+    public function dropTable($tableName){
+        // Prepare the SQL statement
+        $server = $this->ServerConnected();
+        $sql = "DROP TABLE IF EXISTS $tableName";
+        $server->exec($sql);
+    }
         
-
+    public function deleteAll(){
+        $this->dropTable("paiement_cartes");
+        // $this->dropTable("agences");
+        // $this->dropTable("billets");
+        // $this->dropTable("clients");
+        // $this->dropTable("reservations");
+    }
 }
