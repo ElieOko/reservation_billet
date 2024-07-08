@@ -33,6 +33,7 @@ class User extends Connexion{
         return $data;
     }
     public function login() : int {
+
         return $this->id;
     }
     public function getAll(){
@@ -40,5 +41,22 @@ class User extends Connexion{
     }
     public function findById(int $id){
 
+    }
+    public function auth($username,$password){
+        try {
+            $msg = "Not found";
+            $data = ["id"=>0,"message"=>$msg];
+            $pdo = $this->ServerConnected();
+            $state = $pdo->prepare("SELECT * FROM utilisateurs where username=:username and password=:password");
+            $state->bindParam(':v1', $this->username);
+            $state->bindParam(':v2', $this->email);
+            $state->execute();
+            $msg = "save";
+            $data["id"] = $pdo->lastInsertId();
+            $data["message"] = $msg;
+            return $data;
+        } catch (\Throwable $th) {
+            //throw $th;
+        }  
     }
 }

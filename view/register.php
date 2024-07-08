@@ -28,6 +28,7 @@ if (isset($_POST["save"])) {
             $state = $client->create();
             if($state['id']!=0){
               $_SESSION['user_id'] = $data['id'];
+              $_SESSION['client_id'] = $state['id'];
               header("Location:index.php");
             }
           }

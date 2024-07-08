@@ -73,7 +73,7 @@ include("./components/navbar.php");
               <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Reservation des billets.</h1>
               <p class="mt-6 text-lg leading-8 text-gray-600 sm:max-w-md lg:max-w-none">La plateforme KC-Travel est conçue pour offrir une expérience de réservation de billets fluide et agréable pour les voyageurs.</p>
               <div class="mt-10 flex items-center gap-x-6">
-                <a href="./view/agence/agence.php" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Agence disponible</a>
+                <a href="./billet/index.php" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Billet disponible</a>
                 <a href="login.php" class="text-sm hover:text-green-500 font-semibold leading-6 text-gray-900">En savoir plus <span aria-hidden="true">→</span></a>
               </div>
             </div>
@@ -162,61 +162,52 @@ include("./components/navbar.php");
   
   <div class="mx-auto max-w-2xl py-6">
   <h1  class="text-2xl text-center font-bold">Reservation des billets</h1>
-  <div class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-gray-200 shadow sm:grid sm:grid-cols-2 sm:gap-px sm:divide-y-0">
-      <?php
-        while($item = $data_billet->fetch()):
-      ?>
-    <div class="group relative bg-white p-6 sm:rounded-tr-lg">
-      <div>
-        <span class="inline-flex rounded-lg bg-purple-50 p-3 text-purple-700 ring-4 ring-white">
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
-          </svg>
-        </span>
-      </div>
-      <div class="mt-8">
-        <h3 class="text-base font-semibold leading-6 text-gray-900">
-            <!-- Extend touch target to entire panel -->
-            <span class="absolute inset-0" aria-hidden="true"></span>
-            Billet : <?=$item['nom']?>
-       
-        </h3>
-        <span class="mt-2">
-            Tarification : <span class="text-green-300"><?=$item['price']?> </span>fcfa
-        </span> <br>
-        <span class="mt-2">
-            Destination : <span class="text-red-300"><?=$item['destination']?></span>
-        </span>
-        <br>
-        <span class="mt-2">
-            Agence : <span class="text-red-300">
-              <?=($agence_->findById($item['fk_agence']))->fetch()["nom"]?>
-          </span>
-        </span><br>
-        <div class="mt-2 mb-4">
-            Status : <span class="text-green-300">disponible </span>
-        </div><br/>
-        
-        <?php if(isset($_SESSION['user_id'])):?>
-          <a href="./view/reservation.php" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Rerserver</a>
-          <?php else:?>
-            <span class="text-2xl text-red-300">Connectez-vous pour reserver</span>
-          <?php endif?>
-        <?php endwhile?>
-      </div>
-      <span class=" absolute right-6 top-6 text-gray-300 group-hover:text-gray-400" aria-hidden="true">
-        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
-        </svg>
-      </span>
-      
-    </div>
-    instance
-</div>
+
 
       
   </div>
-    
+  <div class="bg-white py-24 sm:py-32">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto max-w-4xl sm:text-center">
+      <h2 class="text-base font-semibold leading-7 text-indigo-600">Pricing</h2>
+      <p class="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Choose the right plan for&nbsp;you</p>
+    </div>
+    <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-600 sm:text-center">Distinctio et nulla eum soluta et neque labore quibusdam. Saepe et quasi iusto modi velit ut non voluptas in. Explicabo id ut laborum.</p>
+    <div class="mt-20 flow-root">
+      <div class="isolate -mt-16 grid max-w-sm grid-cols-1 gap-y-16 divide-y divide-gray-100 sm:mx-auto lg:-mx-8 lg:mt-0 lg:max-w-none lg:grid-cols-3 lg:divide-x lg:divide-y-0 xl:-mx-4">
+        <?php
+          while($item = $data_billet->fetch()):
+        ?>
+        <div class="pt-16 lg:px-8 lg:pt-0 xl:px-14">
+          <h3 id="tier-basic" class="text-base font-semibold leading-7 text-gray-900">Basic</h3>
+          <p class="mt-6 flex items-baseline gap-x-1">
+            <span class="text-5xl font-bold tracking-tight text-gray-900"><?=$item['price']?>fcfa</span>
+            <span class="text-sm font-semibold leading-6 text-gray-600">/personne</span>
+          </p>
+          <p class="mt-3 text-sm leading-6 text-gray-500">Agence : <span class="font-bold"><?=($agence_->findById($item['fk_agence']))->fetch()["nom"]?></span></p>
+          <a href="./reservation/create.php?billet=<?=$item['id']?>" aria-describedby="tier-basic" class="mt-10 block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Reservez</a>
+          <ul role="list" class="mt-6 space-y-3 text-sm leading-6 text-gray-600">
+            <li class="flex gap-x-3">
+              <svg class="h-6 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+              </svg>
+              5 products
+            </li>
+            <li class="flex gap-x-3">
+              <svg class="h-6 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+              </svg>
+              Destination :<?=$item['destination']?>
+            </li>
+
+          </ul>
+        </div>
+        <?php endwhile?>
+      </div>
+    </div>
+  </div>
+</div>
+            
   </main>
 
 <?php

@@ -34,7 +34,7 @@ class Client extends Connexion{
                 $state->bindParam(':v4', $this->telephone);
                 $state->execute();
                 $msg = "Enregistrement réussie avec succès !!";
-                $data['id'] = 1;
+                $data['id'] = $pdo->lastInsertId();
                 $data["message"] = $msg;
             }        
         }     
