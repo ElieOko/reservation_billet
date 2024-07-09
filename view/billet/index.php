@@ -37,6 +37,9 @@ $agence_ = new Agence();
             <span class="text-5xl font-bold tracking-tight text-gray-900"><?=$item['price']?>fcfa</span>
             <span class="text-sm font-semibold leading-6 text-gray-600">/personne</span>
           </p>
+          <?php
+            $_SESSION['billet'] = $item['id'];
+          ?>
           <p class="mt-3 text-sm leading-6 text-gray-500">Agence : <span class="font-bold"><?=($agence_->findById($item['fk_agence']))->fetch()["nom"]?></span></p>
           <a href="../reservation/create.php?billet=<?=$item['id']?>" aria-describedby="tier-basic" class="mt-10 block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Reservez</a>
           <ul role="list" class="mt-6 space-y-3 text-sm leading-6 text-gray-600">

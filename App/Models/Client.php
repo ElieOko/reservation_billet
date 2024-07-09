@@ -43,8 +43,8 @@ class Client extends Connexion{
     public function getAll(){
 
     }
-    public function findById(int $id){
-
+    public function findByFk(int $id){
+        return $this-> selectByIdUser("clients", $id);
     }
 
 }

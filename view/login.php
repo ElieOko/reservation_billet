@@ -1,3 +1,44 @@
+<?php
+
+include("../Env/connexion.php");
+include("../App/Models/User.php");
+include("../App/Models/Client.php");
+use App\Models\User;
+
+if(isset($_POST["username"]) && isset($_POST["password"])){
+  if(!empty($_POST["username"]) && !empty($_POST["password"])){
+    var_dump($_POST["username"]);
+    $user = new User();
+    $state = $user->auth($_POST["username"],$_POST["password"]);
+    var_dump($state);
+  }
+}
+
+
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

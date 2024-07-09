@@ -186,6 +186,16 @@ class Connexion{
             //throw $th;
         }  
     }
+    public function selectByIdUser($tableName,$id){
+        try {
+            $query = "SELECT * FROM $tableName where fk_user=$id";
+            $server = $this->ServerConnected();
+            $result = $server->query($query);
+            return $result;
+        } catch (\Throwable $th) {
+            //throw $th;
+        }  
+    }
     public function selectById($tableName,$id){
         try {
             $query = "SELECT * FROM $tableName where id=$id";

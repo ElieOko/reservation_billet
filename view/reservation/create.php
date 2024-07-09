@@ -1,35 +1,39 @@
 <?php
-use App\Models\Reservation;
+
 include("../../Env/connexion.php");
 include("../../App/Models/Agence.php");
 include("../../App/Models/Billet.php");
 include("../../App/Models/PaiementCarte.php");
 include("../../App/Models/Reservation.php");
+include("../../App/Models/Client.php");
 use App\Models\Agence;
 use App\Models\Billet;
+use App\Models\Client;
+use App\Models\Reservation;
 session_start();
 $billet = new Billet();
 $billet_detail = [];
 $agence_ = new Agence();
+$client = new Client(); 
 $billet_all = $billet->getAll();
-if(isset($_GET['billet']) && !empty( $_GET['billet'] )){
-$billet_detail = $billet->findById($_GET['billet']) ;
-
-    if(isset($_POST['save'])){
+$msg = "test-optimun";
+if(isset($_POST['save'])){
+    
+    if(isset($_SESSION['billet'])){ 
+    $billet_detail = $billet->findById($_SESSION['billet']) ;
         if(isset($_POST['fk_paiment_carte'])){
             if(!empty($_POST['fk_paiment_carte'])){
-                if(isset($_SESSION['client_id'])){
-                    $reservation = new Reservation($_GET['billet'],$_SESSION['client_id'],$_POST['fk_paiment_carte']);
+                $pull_data = $client->findByFk($_SESSION['user_id']);
+                if($pull_data){ 
+                    $reservation = new Reservation($_SESSION['billet'],$pull_data->fetch()['id'],$_POST['fk_paiment_carte']);
                     $msg = $reservation->create();
-                    
-                }
-            
+                    var_dump($msg);
+                }       
             }
         }
-}
+    }
 }
 
-var_dump($msg);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,10 +55,6 @@ var_dump($msg);
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
                         </svg>
                         </div>
-                        <!-- <div class="ml-3">
-
-                           
-                        </div> -->
                     </div>
                 </div>
                 <div class="rounded-md bg-green-50 p-4 mb-8 ">

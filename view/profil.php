@@ -1,3 +1,40 @@
+<?php
+include("../Env/connexion.php");
+include("../App/Models/User.php");
+include("../App/Models/Client.php");
+include("../App/Models/Reservation.php");
+use App\Models\Client;
+use App\Models\Reservation;
+use App\Models\User;
+session_start();
+
+$client = new Client();
+$reservation = new Reservation();
+
+
+if (isset($_SESSION["user_id"])) {
+  $pull_data = $client->findByFk($_SESSION['user_id']);
+  if($pull_data){ 
+    $data = $reservation->findByFk($pull_data->fetch()['id']);
+    var_dump($data->fetchAll());
+}  
+}
+else{
+  die("1234");
+}
+
+
+
+
+
+
+
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

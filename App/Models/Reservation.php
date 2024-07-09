@@ -25,7 +25,7 @@ class Reservation extends Connexion{
         $state = $pdo->prepare("INSERT  INTO reservations(fk_billet,fk_client,date_reservation,fk_paiment_carte,status)value(:fk_billet,:fk_client,:date_reservation,:fk_paiment_carte,:status)");
         $state->bindParam(':fk_billet', $this->fk_billet);
         $state->bindParam(':fk_client', $this->fk_client);
-        $state->bindParam(':date_reservation', $this->date_reservation);
+        $state->bindParam(':date_reservation', $date);
         $state->bindParam(':fk_paiment_carte', $this->fk_paiment_carte);
         $state->bindParam(':status', $this->status);
         $state->execute();
@@ -39,7 +39,7 @@ class Reservation extends Connexion{
     public function getAll(){
         return $this->select("reservations");
     }
-    public function findById(int $id){
+    public function findByFk(int $id){
         return $this->selectByIdClient("reservations", $id);
     }
 }
