@@ -8,7 +8,7 @@ class Connexion{
     private $port = 3306;
     private $user = "root";
     private $password = "";
-    private $database = "resrvation_db";
+    private $database = "reservation_db";
 
     public function ServerConnected(){
         try {
