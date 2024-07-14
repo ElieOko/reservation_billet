@@ -6,9 +6,9 @@ use PDOException;
 class Connexion{
     private $server = "localhost";
     private $port = 3306;
-    private $user = "corneille";
-    private $password = "opensource@243";
-    private $database = "kongo_academia_db";
+    private $user = "root";
+    private $password = "";
+    private $database = "resrvation_db";
 
     public function ServerConnected(){
         try {

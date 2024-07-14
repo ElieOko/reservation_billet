@@ -21,6 +21,6 @@ class PaiementCarte extends Connexion{
         return $this->select("paiement_cartes");
     }
     public function findById(int $id){
-
+        return $this->selectById("paiement_cartes",$id);
     }
 }

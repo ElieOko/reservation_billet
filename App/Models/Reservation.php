@@ -33,8 +33,31 @@ class Reservation extends Connexion{
         // $this->status = self::STATUS_ATTENTE ;
         // $this->date_reservation = date("Y-m-d H:i:s");
     }
-    public function cancel(int $id){
-        
+    public function cancel(string $date, int $id){
+        $dateSpecific = new DateTime($date);
+        $message = "";
+        // Obtenir la date du jour
+        $dateToday = new DateTime();
+        $interval = $dateSpecific->diff($dateToday);
+        // Afficher le nombre de jours de différence
+        if($interval->days <= 2){
+            $data = [
+                'status' => Reservation::STATUS_ANNULER,
+                'id' => $id // ID de l'enregistrement à mettre à jour
+            ];
+            $sql = "UPDATE reservations SET status=:status WHERE id=:id";
+            $pdo = $this->ServerConnected();
+            $statement = $pdo->prepare($sql);
+            if ($statement->execute($data)) {
+                $message = "L'enregistrement a été mis à jour avec succès!";
+            } else {
+                $message = "Erreur lors de la mise à jour de l'enregistrement.";
+            }
+        }
+        else {
+            $message = "Cette reservation ne peut plus être annuler car le delait est depasse de $interval->days jours";
+        }
+        return $message;
     }
     public function getAll(){
         return $this->select("reservations");
